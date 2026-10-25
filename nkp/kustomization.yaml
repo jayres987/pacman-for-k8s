@@ -29,5 +29,5 @@ resources:
   - ../services/pacman-service.yaml
 images:
   - name: docker.io/saintdle/pacman
-    newName: docker.io/saintdle/pacman
-    digest: sha256:592740129bce7530a347146b86647f8b516df3c19105aa4c2fe40b878840fccf
+    newName: jaregistry.ntnxlab.local/apps/pacman
+    newTag: "18407c6"
