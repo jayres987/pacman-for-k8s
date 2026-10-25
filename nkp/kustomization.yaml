@@ -1,0 +1,33 @@
+# NKP overlay for Pac-Man: this folder is the Path of the "pacman" GitOps
+# source in the NKP project on poc237-wl01.
+#
+# It lists the same files as the root kustomization.yaml rather than using the
+# root as its base: Kustomize refuses a base that contains the overlay. Flux
+# allows ../ paths inside the repo; to render it locally run
+#   kubectl kustomize --load-restrictor LoadRestrictionsNone nkp
+#
+# namespace: the NKP project's namespace (pacman-k7x2q). It replaces the
+#   base's hard-coded pacman-demo.
+# images: the build pipeline rewrites newName and the digest/newTag line on
+#   every build. Until the first build it still points at the upstream image.
+#
+# RBAC (security/rbac.yaml) is cluster-scoped and stays out, as in the root
+# kustomization; apply it once by hand (see the runbook).
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: pacman-k7x2q
+labels:
+  - pairs:
+      app.kubernetes.io/part-of: pacman
+    includeSelectors: true
+resources:
+  - ../security/secret.yaml
+  - ../persistentvolumeclaim/mongo-pvc.yaml
+  - ../deployments/mongo-deployment.yaml
+  - ../services/mongo-service.yaml
+  - ../deployments/pacman-deployment.yaml
+  - ../services/pacman-service.yaml
+images:
+  - name: docker.io/saintdle/pacman
+    newName: docker.io/saintdle/pacman
+    digest: sha256:592740129bce7530a347146b86647f8b516df3c19105aa4c2fe40b878840fccf
