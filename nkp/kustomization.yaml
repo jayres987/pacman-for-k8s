@@ -30,4 +30,4 @@ resources:
 images:
   - name: docker.io/saintdle/pacman
     newName: jaregistry.ntnxlab.local/apps/pacman
-    newTag: "8a36c6c"
+    newTag: "18407c6"
